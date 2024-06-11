@@ -1,4 +1,9 @@
-﻿<%@page import="java.sql.Connection"%>
+﻿<%@page import="java.util.List"%>
+<%@page import="GuestBookDao.GuestbookDao"%>
+<%@page import="GuestBookDao.GuestBookOracleImpl"%>
+<%@page import="java.text.SimpleDateFormat"%>
+<%@page import="GuestBookDao.GuestVo"%>
+<%@page import="java.sql.Connection"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.DriverManager"%>
@@ -49,7 +54,38 @@
 		</tr>
 	</table>
         <br/>
-  <%
+        <%
+String name = request.getParameter("name");
+String pass = request.getParameter("pass");
+String content = request.getParameter("content");
+
+
+ServletContext servletContext = getServletContext();
+String dbuser = servletContext.getInitParameter("dbuser");
+String dbpass = servletContext.getInitParameter("dbpass");
+
+GuestbookDao dao = new GuestBookOracleImpl(dbuser, dbpass);
+List<GuestVo> lst = dao.getList();
+SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd HH:mm:ss");
+
+for (GuestVo node: lst) {
+%>
+	<table width=510 border=1>
+		<tr>
+			<td><%= node.getNo() %></td>
+			<td><%= node.getName() %></td>
+			<td>생성일시: <%= sdf.format(node.getDate()) %></td>
+			<td><a href="deleteform.jsp?no=<%=node.getNo() %>">삭제</a></td>
+		</tr>
+		<tr>
+			<td colspan=4><%= node.getContent() %></td>
+		</tr>
+	</table>
+        <br/>
+<%
+}
+%>
+  <% /*
         // 오라클 DB 연결 설정
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -70,10 +106,12 @@
                 String name = rs.getString("name");
                 String reg_date = rs.getString("reg_date");
                 String content = rs.getString("content");
+                */
     %>
 	
 
-        <%
+        <% 
+        /*
             }
         } catch(Exception e) {
         	e.printStackTrace();
@@ -82,7 +120,7 @@
         	if(pstmt != null) pstmt.close();
         	if(conn != null) conn.close();
         }
-        
+        */
         %>
 </body>
 </html>

@@ -1,35 +1,47 @@
+<%@page import="GuestBookDao.GuestBookOracleImpl"%>
+<%@page import="GuestBookDao.GuestVo"%>
+<%@page import="GuestBookDao.GuestbookDao"%>
 <%@ page import="java.sql.*" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
 <%@page import="java.sql.Connection"%>
 <%@page import="java.sql.PreparedStatement"%>
 <%@page import="java.sql.ResultSet"%>
 <%@page import="java.sql.DriverManager"%>
+
 <%
-    String no = request.getParameter("no");
+ /*
+ String noStr = request.getParameter("no");
+	System.out.println(noStr);
+   int no = Integer.parseInt(noStr);
+   */
 %>
 
-<html>
-<head>
-<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>방명록</title>
-</head>
-<body>
-    <!-- 비밀번호 확인 폼 -->
-    <form method="post" action="delete.jsp">
-    <input type='hidden' name="no" value="<%= no %>">
-    <table>
-        <tr>
-            <td>비밀번호</td>
-            <td><input type="password" name="password"></td>
-            <td><input type="submit" value="확인"></td>
-            <td><a href="index.jsp">메인으로 돌아가기</a></td>
-        </tr>
-    </table>
-    </form>
-</body>
-</html>
+
 
 <%
+String password = request.getParameter("password");
+
+ServletContext servletContext = getServletContext();
+String dbuser = servletContext.getInitParameter("dbuser");
+String dbpass = servletContext.getInitParameter("dbpass");
+
+GuestbookDao dao = new GuestBookOracleImpl(dbuser, dbpass);
+
+Long no = Long.parseLong(request.getParameter("no"));
+GuestVo vo = dao.get(no);
+
+if (password.equals(vo.getPassword())) {
+	dao.delete(vo);
+	response.sendRedirect(request.getContextPath());
+} else {
+	
+	%>
+	<h1>비밀번호가 일치하지 않습니다.</h1>
+	<a href="<%= request.getContextPath() %>">메인으로 돌아가기</a>
+	<%
+}
+
+/*
     if(request.getMethod().equalsIgnoreCase("POST")) {
         request.setCharacterEncoding("UTF-8"); // POST 요청 인코딩 설정
         String password = request.getParameter("password");
@@ -47,16 +59,18 @@
             conn = DriverManager.getConnection(url, user, passwordDB);
             String sql = "SELECT password FROM guestbook WHERE no=?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setInt(1, Integer.parseInt(no));
+            System.out.println("good?");
+            pstmt.setInt(1, no);
+            System.out.println("good!");
             rs = pstmt.executeQuery();
 
             if(rs.next()) {
                 String dbPassword = rs.getString("password");
                 out.println("데이터베이스에 저장된 비밀번호: " + dbPassword + "<br>");
-                if ( dbPassword.equals(password)) {
+                if (dbPassword != null && dbPassword.equals(password)) {
                     sql = "DELETE FROM guestbook WHERE no=?";
                     pstmt = conn.prepareStatement(sql);
-                    pstmt.setInt(1, Integer.parseInt(no));
+                    pstmt.setInt(1, no);
                     pstmt.executeUpdate();
                     response.sendRedirect("index.jsp");
                 } else {
@@ -74,4 +88,6 @@
             if(conn != null) try { conn.close(); } catch(SQLException e) {}
         }
     }
+*/
 %>
+
