@@ -9,6 +9,7 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 public class GuestBookOracleImpl implements GuestbookDao{
 	private String dbuser;
 	private String dbpass;
@@ -132,5 +133,12 @@ public class GuestBookOracleImpl implements GuestbookDao{
 			System.err.println("에러");
 		}
 		return deleteCount == 1;
+	}
+
+
+	@Override
+	public boolean delete(Long no) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 }

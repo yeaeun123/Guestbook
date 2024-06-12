@@ -1,4 +1,4 @@
-﻿<%@page import="java.util.List"%>
+﻿﻿<%@page import="java.util.List"%>
 <%@page import="GuestBookDao.GuestbookDao"%>
 <%@page import="GuestBookDao.GuestBookOracleImpl"%>
 <%@page import="java.text.SimpleDateFormat"%>
@@ -85,42 +85,6 @@ for (GuestVo node: lst) {
 <%
 }
 %>
-  <% /*
-        // 오라클 DB 연결 설정
-        Connection conn = null;
-        PreparedStatement pstmt = null;
-        ResultSet rs = null;
-        String url = "jdbc:oracle:thin:@localhost:1522:xe";
-        String user = "himedia"; // 오라클 사용자명
-        String password = "himedia"; // 오라클 비밀번호
-
-        try {
-            Class.forName("oracle.jdbc.driver.OracleDriver");
-            conn = DriverManager.getConnection(url, user, password);
-            String sql = "SELECT * FROM guestbook ORDER BY no DESC";
-            pstmt = conn.prepareStatement(sql);
-            rs = pstmt.executeQuery();
-
-            while(rs.next()) {
-                int no = rs.getInt("no");
-                String name = rs.getString("name");
-                String reg_date = rs.getString("reg_date");
-                String content = rs.getString("content");
-                */
-    %>
-	
-
-        <% 
-        /*
-            }
-        } catch(Exception e) {
-        	e.printStackTrace();
-        } finally {
-        	if(rs != null) rs.close();
-        	if(pstmt != null) pstmt.close();
-        	if(conn != null) conn.close();
-        }
-        */
-        %>
+ 
 </body>
 </html>
