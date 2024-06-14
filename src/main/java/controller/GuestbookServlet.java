@@ -8,6 +8,7 @@ import GuestBookDao.GuestBookOracleImpl;
 import GuestBookDao.GuestVo;
 import GuestBookDao.GuestbookDao;
 import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletConfig;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -17,11 +18,17 @@ import jakarta.servlet.http.HttpServletResponse;
 public class GuestbookServlet extends BaseServlet {
 
     @Override
+	public void init(ServletConfig config) throws ServletException {
+		// TODO Auto-generated method stub
+		super.init(config);
+	}
+
+	@Override
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         String actionName = req.getParameter("a");
         if ("add".equals(actionName)) {
             // 사용자 입력 페이지로 FORWARD 
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/view/guestbook/list.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp");
             rd.forward(req, resp);
         } else {
             // 목록 받아오는 부분 -> el
@@ -31,7 +38,7 @@ public class GuestbookServlet extends BaseServlet {
             // list를 요청 객체에 추가
             req.setAttribute("list", list);
             // list객체 -> jsp로 전달(FORWARD)
-            RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/view/guestbook/list.jsp");
+            RequestDispatcher rd = getServletContext().getRequestDispatcher("/WEB-INF/views/guestbook/list.jsp");
             rd.forward(req, resp);
         }
     }

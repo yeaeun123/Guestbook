@@ -9,6 +9,13 @@ public class GuestVo {
 	private String password;
 	private String content;
 	private Date date;
+	
+
+	@Override
+	public String toString() {
+		return "GuestVo [no=" + no + ", name=" + name + ", password=" + password + ", content=" + content + ", date="
+				+ date + "]";
+	}
 	public GuestVo() {
 		super();
 	}
@@ -75,5 +82,7 @@ public class GuestVo {
 		GuestVo other = (GuestVo) obj;
 		return Objects.equals(no, other.no);
 	}
+
+	
 	
 }
