@@ -43,30 +43,6 @@ if (request.getAttribute("list") instanceof List) { // 전달 받은 list가 Lis
 	</form>
 	<br/>
 	
-		<table width=510 border=1>
-		<tr>
-			<td>[1]</td>
-			<td>홍길동</td>
-			<td>2018-01-15</td>
-			<td><a href="delete.jsp">삭제</a></td>
-		</tr>
-		<tr>
-			<td colspan=4>안녕하세요<br/>첫번째글입니다.</td>
-		</tr>
-	</table>
-        <br/>
-	<table width=510 border=1>
-		<tr>
-			<td>[1]</td>
-			<td>장실산</td>
-			<td>2018-01-15</td>
-			<td><a href="delete.jsp">삭제</a></td>
-		</tr>
-		<tr>
-			<td colspan=4>안녕하세요<br/>두번째글입니다.</td>
-		</tr>
-	</table>
-        <br/>
      
      <%
      for (GuestVo vo: list) {
@@ -75,8 +51,13 @@ if (request.getAttribute("list") instanceof List) { // 전달 받은 list가 Lis
 		<tr>
 			<td><%= vo.getNo() %></td>
 			<td><%= vo.getName() %></td>
-
-			<td><a href="<%= request.getContextPath() %>/gb?a=form">삭제</a></td>
+			<td>
+				<form action="<%=request.getContextPath() %>/gb?a=delete" method="POST">
+					<input type="hidden" name="no" value="<%= vo.getNo() %>" />
+					<input type="submit" VALUE=" 삭제 ">	
+				</form>
+			</td>
+			
 		</tr>
 		<tr>
 			<td colspan=4><%= vo.getContent() %></td>

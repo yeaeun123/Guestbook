@@ -1,10 +1,5 @@
 <%@ page import="java.sql.*" %>
 <%@ page contentType="text/html; charset=UTF-8" %>
-<%
-   String noStr = request.getParameter("no");
-	System.out.println(noStr);
-   int no = Integer.parseInt(noStr);
-%>
 
 <html>
 <head>
@@ -12,8 +7,8 @@
 <title>방명록</title>
 </head>
 <body>
-	<form method="post" action="delete.jsp?no=<%= request.getParameter("no") %>">
-	<input type='hidden' name="id" value="">
+	<form method="post" action="<%= request.getContextPath()%>/gb?a=deleteform">
+	<input type='hidden' name="no" value="<%= request.getParameter("no")%>">
 	<table>
 		<tr>
 			<td>비밀번호</td>
