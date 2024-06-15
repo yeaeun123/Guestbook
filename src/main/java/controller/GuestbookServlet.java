@@ -78,18 +78,23 @@ public class GuestbookServlet extends BaseServlet {
 		} else if ("deleteform".equals(actionName)) {
 
 			Long no = Long.valueOf(req.getParameter("no"));
-			// TODO! 비밀번호 비교하고 삭제하기
+		
+			
 			GuestbookDao dao = new GuestBookOracleImpl(dbuser, dbpass);
-			GuestVo vo = new GuestVo();
-			vo.setNo(no);
-
-			boolean success = dao.delete(vo);
-
-			if (success) {
-				System.out.println("Delete Success");
-				resp.sendRedirect(req.getContextPath() + "/gb");
+			GuestVo vo = dao.get(no);
+			
+			String password = req.getParameter("password");
+			if (password.equals(vo.getPassword())) {
+				
+				boolean success = dao.delete(vo);
+				if (success) {
+					System.out.println("Delete Success");
+					resp.sendRedirect(req.getContextPath() + "/gb");
+				} else {
+					resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "데이터 삭제 중 오류가 발생했습니다.");
+				}
 			} else {
-				resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "데이터 삭제 중 오류가 발생했습니다.");
+				resp.sendError(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "패스워드가 틀립니다.");
 			}
 		} else {
 			super.doPost(req, resp);

@@ -24,7 +24,7 @@ public class GuestBookOracleImpl implements GuestbookDao {
 		Connection con = null;
 		try {
 			Class.forName("oracle.jdbc.driver.OracleDriver");
-			String dburl = "jdbc:oracle:thin:@localhost:1522:xe";
+			String dburl = "jdbc:oracle:thin:@localhost:1521:xe";
 			con = DriverManager.getConnection(dburl, dbuser, dbpass);
 		} catch (ClassNotFoundException e) {
 			System.err.println("JDBC Driver를 찾을 수 없습니다.");
