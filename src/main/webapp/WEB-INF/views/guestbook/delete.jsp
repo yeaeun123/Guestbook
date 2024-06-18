@@ -19,11 +19,11 @@ String dbpass = servletContext.getInitParameter("dbpass");
 
 GuestbookDao dao = new GuestBookOracleImpl(dbuser, dbpass);
 Long no = null;
-(request.getAttribute("no"));
+no = Long.parseLong((String) request.getAttribute("no"));
 GuestVo vo = dao.get(no);
 
 if (password.equals(vo.getPassword())) {
-	dao.delete(no);
+	boolean success = dao.delete(vo);
 	response.sendRedirect(request.getContextPath());
 } else {
 	
